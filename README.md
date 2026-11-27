@@ -1,5 +1,7 @@
 # Express.js + GitHub Actions CI/CD Sample
 
+![แบนเนอร์: สายพานลำเลียงกล่องผ่านเฟือง ชั้นหลอดทดลอง และโคมไฟตรวจ](docs/banner.png)
+
 🚀 ตัวอย่างโปรเจกต์ Express.js พร้อม GitHub Actions CI/CD Pipeline แบบสมบูรณ์
 
 ## 📋 สารบัญ
