@@ -1,37 +1,39 @@
 # Express.js + GitHub Actions CI/CD Sample
 
-![แบนเนอร์: สายพานลำเลียงกล่องผ่านเฟือง ชั้นหลอดทดลอง และโคมไฟตรวจ](docs/banner.png)
+![Banner: a conveyor belt carries boxes past gears, a rack of test tubes, and an inspection lamp](docs/banner.png)
 
-🚀 ตัวอย่างโปรเจกต์ Express.js พร้อม GitHub Actions CI/CD Pipeline แบบสมบูรณ์
+Portfolio: https://suphanut.pages.dev
 
-## 📋 สารบัญ
+A sample Express.js project with a GitHub Actions CI/CD pipeline.
 
-- [คุณสมบัติ](#คุณสมบัติ)
-- [เทคโนโลยีที่ใช้](#เทคโนโลยีที่ใช้)
-- [โครงสร้างโปรเจกต์](#โครงสร้างโปรเจกต์)
-- [การติดตั้งและใช้งาน](#การติดตั้งและใช้งาน)
-- [การรัน Tests](#การรัน-tests)
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Install and Run](#install-and-run)
+- [Run Tests](#run-tests)
 - [Docker](#docker)
 - [GitHub Actions CI/CD](#github-actions-cicd)
 - [API Endpoints](#api-endpoints)
-- [การตั้งค่า Secrets](#การตั้งค่า-secrets)
+- [Set Up Secrets](#set-up-secrets)
 
 ---
 
-## ✨ คุณสมบัติ
+## Features
 
-- ✅ Express.js REST API
-- ✅ Jest + Supertest สำหรับ Unit Testing
-- ✅ Docker Multi-stage Build
-- ✅ GitHub Actions CI/CD Pipeline
-- ✅ Code Coverage Report
-- ✅ Security Scanning with Trivy
-- ✅ Health Check Endpoint
-- ✅ Error Handling
+- Express.js REST API
+- Jest + Supertest for unit tests
+- Docker multi-stage build
+- GitHub Actions CI/CD pipeline
+- Code coverage report (see [Coverage Report](#coverage-report) for a limit)
+- Security scan with Trivy
+- Health check endpoint
+- Error handling
 
 ---
 
-## 🛠 เทคโนโลยีที่ใช้
+## Tech Stack
 
 - **Runtime**: Node.js 22
 - **Framework**: Express.js 4.x
@@ -42,55 +44,60 @@
 
 ---
 
-## 📁 โครงสร้างโปรเจกต์
+## Project Structure
 
 ```
-sample-github-action/
+sample-github-action-demo/
 ├── .github/
 │   └── workflows/
 │       └── main.yml          # GitHub Actions Workflow
+├── docs/
+│   └── banner.png           # README banner
 ├── src/
 │   └── app.js               # Express Application
 ├── tests/
 │   └── app.test.js          # Unit Tests
 ├── .env.example             # Environment Variables Template
 ├── .gitignore               # Git Ignore
+├── COMPARISON.md            # Jenkins vs GitHub Actions comparison (in Thai)
 ├── Dockerfile               # Docker Configuration
-├── package.json             # Dependencies
+├── QUICKSTART.md            # Quick start guide (in Thai)
+├── package.json             # Dependencies and scripts
+├── package-lock.json        # Locked dependency versions
 └── README.md                # This file
 ```
 
 ---
 
-## 🚀 การติดตั้งและใช้งาน
+## Install and Run
 
 ### 1. Clone Repository
 
 ```bash
 git clone <your-repo-url>
-cd sample-github-action
+cd sample-github-action-demo
 ```
 
-### 2. ติดตั้ง Dependencies
+### 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 3. สร้างไฟล์ .env
+### 3. Create the .env File
 
 ```bash
 cp .env.example .env
 ```
 
-แก้ไขไฟล์ `.env` ตามต้องการ:
+Edit `.env` as needed:
 
 ```env
 PORT=3000
 NODE_ENV=development
 ```
 
-### 4. รัน Application
+### 4. Run the Application
 
 **Development Mode** (with auto-reload):
 ```bash
@@ -102,25 +109,25 @@ npm run dev
 npm start
 ```
 
-เปิดเบราว์เซอร์: http://localhost:3000
+Open http://localhost:3000 in your browser.
 
 ---
 
-## 🧪 การรัน Tests
+## Run Tests
 
-### รัน Tests ครั้งเดียว
+### Run Tests Once
 
 ```bash
 npm test
 ```
 
-### รัน Tests แบบ Watch Mode
+### Run Tests in Watch Mode
 
 ```bash
 npm run test:watch
 ```
 
-### ตัวอย่างผลลัพธ์
+### Example Output
 
 ```
  PASS  tests/app.test.js
@@ -147,7 +154,7 @@ Tests:       9 passed, 9 total
 
 ---
 
-## 🐳 Docker
+## Docker
 
 ### Build Docker Image
 
@@ -161,14 +168,14 @@ docker build -t express-app:latest .
 docker run -d -p 3000:3000 --name express-app express-app:latest
 ```
 
-### ตรวจสอบ Container
+### Check the Container
 
 ```bash
 docker ps
 docker logs express-app
 ```
 
-### หยุดและลบ Container
+### Stop and Remove the Container
 
 ```bash
 docker stop express-app
@@ -177,7 +184,7 @@ docker rm express-app
 
 ### Docker Compose (Optional)
 
-สร้างไฟล์ `docker-compose.yml`:
+The repository has no `docker-compose.yml`. To use Docker Compose, create one:
 
 ```yaml
 version: '3.8'
@@ -193,7 +200,7 @@ services:
     restart: unless-stopped
 ```
 
-รันด้วย Docker Compose:
+Run it with Docker Compose:
 
 ```bash
 docker-compose up -d
@@ -203,39 +210,41 @@ docker-compose down
 
 ---
 
-## 🔄 GitHub Actions CI/CD
+## GitHub Actions CI/CD
 
 ### Workflow Overview
 
-Pipeline ประกอบด้วย 4 Jobs:
+The pipeline in `.github/workflows/main.yml` has 4 jobs:
 
-1. **Build & Test** 🧪
+1. **Build & Test**
    - Checkout code
    - Install dependencies
    - Run tests with coverage
    - Upload coverage report
 
-2. **Build & Push Docker** 🐳
+2. **Build & Push Docker**
    - Build Docker image
    - Push to Docker Hub
-   - Tag with branch name and SHA
+   - Tag with branch name and SHA, plus `latest` on the default branch
 
-3. **Security Scan** 🔒
-   - Scan Docker image for vulnerabilities
+3. **Security Scan**
+   - Scan the Docker image for vulnerabilities
    - Upload results to GitHub Security
+   - Both steps use `continue-on-error`, so a failed scan does not stop the pipeline
 
-4. **Deploy** 🚀
-   - Deploy to production (configurable)
+4. **Deploy**
+   - Runs on a self-hosted runner with the label `self-hosted-windows-docker`. Without such a runner, the job stays queued.
+   - Prints deploy messages only. The SSH deploy step is commented out. Edit it to match your server.
 
 ### Triggers
 
-- ✅ **Push to main**: รัน full pipeline
-- ✅ **Pull Request to main**: รัน build & test
-- ✅ **Manual**: กดรันได้จากหน้า Actions
+- **Push to main**: runs the full pipeline.
+- **Pull request to main**: runs Build & Test only.
+- **Manual**: run it from the Actions tab. The Deploy job runs only when you pick `main`.
 
 ---
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### 1. Root Endpoint
 ```http
@@ -278,6 +287,16 @@ GET /api/users
       "id": 1,
       "name": "John Doe",
       "email": "john@example.com"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "jane@example.com"
+    },
+    {
+      "id": 3,
+      "name": "Bob Johnson",
+      "email": "bob@example.com"
     }
   ]
 }
@@ -336,15 +355,17 @@ Content-Type: application/json
 }
 ```
 
+Any other route returns 404 with `{"error": "Route not found"}`.
+
 ---
 
-## 🔐 การตั้งค่า Secrets
+## Set Up Secrets
 
-### ใน GitHub Repository
+### In the GitHub Repository
 
-1. ไปที่ **Settings** → **Secrets and variables** → **Actions**
-2. คลิก **New repository secret**
-3. เพิ่ม Secrets ดังนี้:
+1. Go to **Settings** → **Secrets and variables** → **Actions**.
+2. Click **New repository secret**.
+3. Add these secrets:
 
 | Secret Name | Description | Example |
 |-------------|-------------|---------|
@@ -354,19 +375,21 @@ Content-Type: application/json
 | `USERNAME` | SSH username | `ubuntu` |
 | `SSH_PRIVATE_KEY` | SSH private key | `-----BEGIN RSA...` |
 
-### สร้าง Docker Hub Access Token
+The workflow needs only `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` today. `HOST`, `USERNAME`, and `SSH_PRIVATE_KEY` are for the commented-out SSH deploy step.
 
-1. ไปที่ [Docker Hub](https://hub.docker.com/)
-2. **Account Settings** → **Security** → **New Access Token**
-3. ตั้งชื่อ: `github-actions`
-4. Permissions: **Read, Write, Delete**
-5. คัดลอก token และเพิ่มใน GitHub Secrets
+### Create a Docker Hub Access Token
+
+1. Go to [Docker Hub](https://hub.docker.com/).
+2. Open **Account Settings** → **Security** → **New Access Token**.
+3. Name it `github-actions`.
+4. Set permissions to **Read & Write**. Pushing an image needs no more than that.
+5. Copy the token and add it to GitHub Secrets.
 
 ---
 
-## 📝 การใช้งาน GitHub Actions
+## Use GitHub Actions
 
-### 1. Push to Main Branch
+### 1. Push to the Main Branch
 
 ```bash
 git add .
@@ -374,9 +397,9 @@ git commit -m "Add new feature"
 git push origin main
 ```
 
-→ Workflow จะรันอัตโนมัติ: Test → Build → Security Scan → Deploy
+→ The workflow runs: Test → Build → Security Scan → Deploy
 
-### 2. Create Pull Request
+### 2. Create a Pull Request
 
 ```bash
 git checkout -b feature/new-feature
@@ -385,61 +408,66 @@ git commit -m "Add new feature"
 git push origin feature/new-feature
 ```
 
-→ สร้าง Pull Request ใน GitHub
-→ Workflow จะรัน: Test only
+→ Open a pull request on GitHub.
+→ The workflow runs tests only.
 
 ### 3. Manual Trigger
 
-1. ไปที่แท็บ **Actions**
-2. เลือก **CI/CD Pipeline - Express App**
-3. คลิก **Run workflow**
-4. เลือก branch
-5. คลิก **Run workflow**
+1. Open the **Actions** tab.
+2. Select **CI/CD Pipeline - Express App**.
+3. Click **Run workflow**.
+4. Pick a branch.
+5. Click **Run workflow**.
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
-### ปัญหา: Tests ล้มเหลว
+### Problem: Tests Fail
 
 ```bash
-# ตรวจสอบ Node.js version
-node --version  # ควรเป็น v22.x
+# Check the Node.js version
+node --version  # should be v22.x
 
-# ลบ node_modules และติดตั้งใหม่
+# Remove node_modules and reinstall
 rm -rf node_modules package-lock.json
 npm install
 npm test
 ```
 
-### ปัญหา: Docker build ล้มเหลว
+### Problem: Docker Build Fails
 
 ```bash
-# ตรวจสอบ Dockerfile syntax
+# Rebuild without the cache
 docker build --no-cache -t express-app:latest .
 
-# ดู logs
+# If the container starts but fails, read its logs
 docker logs express-app
 ```
 
-### ปัญหา: GitHub Actions ล้มเหลว
+### Problem: GitHub Actions Fails
 
-1. ตรวจสอบว่าตั้งค่า Secrets ครบถ้วน
-2. ดู logs ใน Actions tab
-3. ตรวจสอบว่า Docker Hub username ถูกต้อง
-4. เปลี่ยน `DOCKER_IMAGE` ใน workflow ให้ตรงกับ username ของคุณ
+1. Check that you set all required secrets.
+2. Read the logs in the Actions tab.
+3. Check that the Docker Hub username is correct.
+4. Set `DOCKER_IMAGE` in the workflow to your Docker Hub username.
 
 ---
 
-## 📊 Coverage Report
+## Coverage Report
 
-หลังจากรัน tests ไฟล์ coverage จะถูกสร้างใน `coverage/` directory
+`npm test` runs Jest with `--coverage` and writes the report to `coverage/`.
 
-เปิดดู HTML report:
+Note: `collectCoverageFrom` in `package.json` excludes `src/app.js`, which is the only source file. The report lists no files until you remove `"!src/app.js"` from that list.
+
+Open the HTML report:
 
 ```bash
-# Linux/Mac
+# macOS
 open coverage/lcov-report/index.html
+
+# Linux
+xdg-open coverage/lcov-report/index.html
 
 # Windows
 start coverage/lcov-report/index.html
@@ -447,26 +475,26 @@ start coverage/lcov-report/index.html
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
-### แก้ไข Port
+### Change the Port
 
-ใน `.env`:
+In `.env`:
 ```env
 PORT=3000
 ```
 
-### แก้ไข Docker Image Name
+### Change the Docker Image Name
 
-ใน `.github/workflows/main.yml`:
+In `.github/workflows/main.yml`:
 ```yaml
 env:
-  DOCKER_IMAGE: 'yourusername/express-app'  # เปลี่ยนตรงนี้
+  DOCKER_IMAGE: "yourusername/express-app-action" # change this
 ```
 
 ---
 
-## 📚 เอกสารเพิ่มเติม
+## Further Reading
 
 - [Express.js Documentation](https://expressjs.com/)
 - [Jest Documentation](https://jestjs.io/)
@@ -475,30 +503,18 @@ env:
 
 ---
 
-## 📄 License
+## License
 
-MIT License - ใช้งานได้อย่างอิสระ
-
----
-
-## 👨‍💻 Author
-
-Your Name - [@yourusername](https://github.com/yourusername)
+MIT, as declared in `package.json`. The repository has no separate `LICENSE` file.
 
 ---
 
-## 🙏 Contributing
+## Contributing
 
-Pull requests are welcome! สำหรับการเปลี่ยนแปลงครั้งใหญ่ กรุณาเปิด issue ก่อน
-
----
-
-## 📮 Support
-
-หากพบปัญหาหรือมีคำถาม:
-- เปิด [GitHub Issue](https://github.com/yourusername/yourrepo/issues)
-- ติดต่อผ่าน email: your.email@example.com
+Pull requests are welcome. For major changes, open an issue first.
 
 ---
 
-**Happy Coding! 🚀**
+## Support
+
+For problems or questions, open a [GitHub Issue](../../issues).
